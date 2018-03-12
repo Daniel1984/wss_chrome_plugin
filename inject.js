@@ -4,40 +4,74 @@
   var initialBackgroundColor;
   var initialCursor;
 
-  function getPopupContainer() {
-    const popupContainer = document.createElement('div');
-    popupContainer.style.position = 'fixed';
-    popupContainer.style.zIndex = '3000';
-    popupContainer.style.top = '0';
-    popupContainer.style.left = '0';
-    popupContainer.style.right = '0';
-    popupContainer.style.bottom = '0';
-    popupContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
-    return popupContainer;
+  function getElWrapper() {
+    const el = document.createElement('div');
+    el.style.position = 'relative';
+    el.style.zIndex = '3000';
+    return el;
   }
 
-  function getPopup() {
-    const popup = document.createElement('div');
-    popup.style.minWidth = '500px';
-    popup.style.minHeight = '300px';
-    popup.style.backgroundColor = '#fff';
-    popup.style.position = 'absolute';
-    popup.style.top = '50%';
-    popup.style.left = '50%';
-    popup.style.transform = 'translate(-50%, -50%)';
-    return popup;
+  function getContentContainer() {
+    const el = document.createElement('div');
+    el.style.position = 'absolute';
+    el.style.border = '1px solid #c1c1c1';
+    el.style.minWidth = '300px';
+    el.style.backgroundColor = 'whiteSmoke';
+    el.style.top = '0';
+    el.style.left = '0';
+    return el;
   }
 
-  function getButton({ state, cb, text }) {
-    const button = document.createElement('button');
-    button.style.minWidth = '500px';
-    button.style.minHeight = '300px';
-    button.style.backgroundColor = '#fff';
-    button.style.position = 'absolute';
-    button.style.top = '50%';
-    button.style.left = '50%';
-    button.style.transform = 'translate(-50%, -50%)';
-    return button;
+  function getContent() {
+    const el = document.createElement('div');
+    el.style.backgroundColor = '#fff';
+    el.style.padding = '10px';
+    return el;
+  }
+
+  function getFooter() {
+    const el = document.createElement('div');
+    el.style.padding = '5px 10px';
+    el.style.display = 'flex';
+    el.style.justifyContent = 'flex-end';
+    el.style.alignItems = 'center';
+    return el;
+  }
+
+  function getButton({ type, text, cb }) {
+    const el = document.createElement('button');
+    el.innerText = text;
+    el.onclick = cb;
+    el.style.outline = 'none';
+    el.style.minWidth = '70px';
+    el.style.border = '0';
+    el.style.padding = '5px 10px';
+    el.style.cursor = 'pointer';
+    el.style.color = '#fff';
+
+    if (type === 'success') {
+      el.style.backgroundColor = '#15CD72';
+    } else if (type === 'danger') {
+      el.style.backgroundColor = 'orangered';
+    } else {
+      el.style.backgroundColor = 'transparent';
+      el.style.color = '#00f';
+    }
+
+    return el;
+  }
+
+  function getInput({ placeholder, value }) {
+    const el = document.createElement('input');
+    el.placeholder = placeholder;
+    el.value = value || null;
+    el.style.padding = '10px';
+    el.style.border = '1px solid #e7e7e7';
+    el.style.width = '100%';
+    el.style.backgroundColor = '#fcfcfc';
+    el.style.color = '#676767';
+    el.style.fontSize = '1rem';
+    return el;
   }
 
   document.querySelectorAll('body *').forEach((el) => {
@@ -106,13 +140,25 @@
         innerText: el.innerText,
       };
 
-      // const popupContainer = getPopupContainer();
-      // const popup = getPopup();
+      const wrapper = getElWrapper();
+      const contentContainer = getContentContainer();
+      const footer = getFooter();
+      const content = getContent();
+      const saveBtn = getButton({ type: 'success', text: 'Save', cb: () => console.log('saving')});
+      const cancelBtn = getButton({ text: 'Cancel', cb: () => console.log('cancel')});
+      const nameInput = getInput({ placeholder: 'Enter memorable field name' })
 
-      // popupContainer.appendChild(popup);
-      // document.body.appendChild(popupContainer);
-      // document.body.appendChild(popup);
+      content.appendChild(nameInput);
+      footer.appendChild(cancelBtn);
+      footer.appendChild(saveBtn);
+      contentContainer.appendChild(content);
+      contentContainer.appendChild(footer);
+      wrapper.appendChild(contentContainer);
 
+      el.parentNode.insertBefore(wrapper, el);
+
+      wrapper.appendChild(el);
+      window.wpsEnabled = false;
       chrome.extension.sendMessage({ fn: 'persistFieldInfo', payload: fieldInfo });
     });
   });
