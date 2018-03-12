@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "manifest_version": 2,
   "description": "Web Scraping Service",
-  "homepage_url": "http://www.marriott.com",
+  "homepage_url": "https://metabnb.com",
   "web_accessible_resources": [
     "*.png",
     "banner.png",
