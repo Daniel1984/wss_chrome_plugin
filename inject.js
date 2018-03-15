@@ -6,6 +6,7 @@
 
   function getElWrapper() {
     const el = document.createElement('div');
+    el.className = 'ho-ho-ho';
     el.style.position = 'relative';
     el.style.zIndex = '3000';
     return el;
@@ -16,6 +17,8 @@
     el.style.position = 'absolute';
     el.style.border = '1px solid #c1c1c1';
     el.style.minWidth = '300px';
+    el.style.display = 'flex';
+    el.style.flexDirection = 'column';
     el.style.backgroundColor = 'whiteSmoke';
     el.style.top = '0';
     el.style.left = '0';
@@ -66,11 +69,12 @@
     el.placeholder = placeholder;
     el.value = value || null;
     el.style.padding = '10px';
+    el.style.flex = '1';
     el.style.border = '1px solid #e7e7e7';
     el.style.width = '100%';
     el.style.backgroundColor = '#fcfcfc';
     el.style.color = '#676767';
-    el.style.fontSize = '1rem';
+    el.style.fontSize = '15px';
     return el;
   }
 
@@ -144,8 +148,8 @@
       const contentContainer = getContentContainer();
       const footer = getFooter();
       const content = getContent();
-      const saveBtn = getButton({ type: 'success', text: 'Save', cb: () => console.log('saving')});
-      const cancelBtn = getButton({ text: 'Cancel', cb: () => console.log('cancel')});
+      const saveBtn = getButton({ type: 'success', text: 'Save', cb: () => console.log('saving') });
+      const cancelBtn = getButton({ text: 'Cancel', cb: cancelFieldEdit });
       const nameInput = getInput({ placeholder: 'Enter memorable field name' })
 
       content.appendChild(nameInput);
@@ -160,6 +164,14 @@
       wrapper.appendChild(el);
       window.wpsEnabled = false;
       chrome.extension.sendMessage({ fn: 'persistFieldInfo', payload: fieldInfo });
+
+      function cancelFieldEdit(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        wrapper.parentNode.appendChild(el);
+        wrapper.parentNode.appendChild(e.target);
+        window.wpsEnabled = true;
+      }
     });
   });
 })();
