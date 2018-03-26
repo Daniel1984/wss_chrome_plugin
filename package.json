@@ -1,0 +1,84 @@
+{
+  "name": "pricing-frontend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "ci": "yarn test && yarn lint",
+    "start": "http-server -p 4242 -o -- dist",
+    "build": "rimraf dist && webpack --mode production",
+    "dev": "webpack-dev-server --mode development --open",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src"
+  },
+  "devDependencies": {
+    "autoprefixer": "^8.1.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-inline-react-svg": "^0.5.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-imports": "^1.5.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "copy-webpack-plugin": "^4.5.1",
+    "css-loader": "^0.28.10",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "eslint": "^4.18.2",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-inline-source-plugin": "^0.0.10",
+    "html-webpack-plugin": "^3.0.6",
+    "husky": "^0.15.0-rc.9",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^22.4.2",
+    "node-sass": "^4.7.2",
+    "postcss-loader": "^2.1.1",
+    "rimraf": "^2.6.2",
+    "sass-loader": "^6.0.7",
+    "style-loader": "^0.20.3",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.11",
+    "webpack-dev-server": "^3.1.1"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "classnames": "^2.2.5",
+    "date-fns": "^1.29.0",
+    "http-server": "^0.11.1",
+    "lodash": "^4.17.5",
+    "prop-types": "^15.6.1",
+    "react": "^16.3.0-alpha.2",
+    "react-dom": "16",
+    "react-google-login": "^3.0.10",
+    "react-router-dom": "^4.2.2",
+    "reset-css": "^2.2.1",
+    "unstated": "^1.1.0"
+  },
+  "browserslist": [
+    "last 2 versions"
+  ],
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.s?css": "identity-obj-proxy"
+    },
+    "setupFiles": [
+      "<rootDir>/__mocks__/enzyme.js",
+      "<rootDir>/__mocks__/windowMock.js"
+    ],
+    "roots": [
+      "src"
+    ]
+  }
+}

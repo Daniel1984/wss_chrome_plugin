@@ -1,0 +1,12 @@
+node_modules
+npm-debug.log
+
+/.temp/**
+/public/**
+dist
+
+*.DS_Store
+.idea
+.vscode/
+
+coverage/

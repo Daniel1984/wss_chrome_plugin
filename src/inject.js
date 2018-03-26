@@ -217,9 +217,7 @@ window.wspWebScrapeProvider = (function wsp() {
     return path;
   }
 
-  function initiateScrapingUi() {
-    addCustomStyle();
-
+  function attachEventHandlers() {
     document.querySelectorAll('body *').forEach((el) => {
       el.addEventListener('mouseover', (e) => {
         if (!wpsEnabled) {
@@ -259,8 +257,17 @@ window.wspWebScrapeProvider = (function wsp() {
         currentTarget.addEventListener('mouseout', highlightElement);
         currentTarget.addEventListener('click', storeElementInfo);
       });
-
     });
+  }
+
+  function renderUI() {
+
+  }
+
+  function initiateScrapingUi() {
+    addCustomStyle();
+    attachEventHandlers();
+    renderUI();
   }
 
   return {
