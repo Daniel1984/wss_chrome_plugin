@@ -1,13 +1,16 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const WriteFilePlugin = require('write-file-webpack-plugin');
 const path = require('path');
 
 const config = {
   entry: {
-    index: './src/index.js',
-    background: './src/background.js',
-    inject: './src/inject.js',
+    popup: path.join(__dirname, 'src', 'popup.js'),
+    options: path.join(__dirname, 'src', 'options.js'),
+    background: path.join(__dirname, 'src', 'background.js'),
+    inject: path.join(__dirname, 'src', 'inject.js'),
   },
   output: {
     filename: '[name].js',
@@ -25,29 +28,32 @@ const config = {
       },
       {
         test: /\.(scss|css)$/,
-        use: [
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              importLoaders: 2,
-              localIdentName: '[name]-[local]__[hash:base64:5]',
-              sourceMap: true,
+        use: ExtractTextPlugin.extract({
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                importLoaders: 2,
+                localIdentName: '[name]-[local]__[hash:base64:5]',
+                sourceMap: true,
+              },
             },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              sourceMap: true,
+            {
+              loader: 'postcss-loader',
+              options: {
+                sourceMap: true,
+              },
             },
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: true,
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true,
+              },
             },
-          },
-        ],
+          ],
+          fallback: 'style-loader',
+        }),
       },
       {
         test: /\.svg$/,
@@ -60,16 +66,36 @@ const config = {
     ],
   },
   plugins: [
+    new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      template: './src/index.html',
-      inlineSource: '.css$',
-      excludeChunks: ['background', 'inject'],
+      template: path.join(__dirname, 'src', 'popup.html'),
+      filename: 'popup.html',
+      chunks: ['popup'],
     }),
-    new HtmlWebpackInlineSourcePlugin(),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src', 'options.html'),
+      filename: 'options.html',
+      chunks: ['options'],
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src', 'background.html'),
+      filename: 'background.html',
+      chunks: ['background'],
+    }),
+    new ExtractTextPlugin({
+      filename: '[name].css',
+      allChunks: true,
+    }),
     new CopyPlugin([
       { from: 'src/manifest.json', to: '.' },
+      { from: 'src/assets', to: '.' },
     ]),
+    new WriteFilePlugin(),
   ],
+  devServer: {
+    contentBase: path.resolve(__dirname, 'src'),
+    historyApiFallback: true,
+  },
 };
 
 module.exports = config;

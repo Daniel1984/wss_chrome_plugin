@@ -1,12 +1,8 @@
-const data = {
-  name: 'dan'
-};
-
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   const backgroundApp = {
     enableScrapeSelections() {
       chrome.tabs.executeScript(tab.ib, {
-        code: 'window.wpsEnabled = true',
+        // code: 'window.wpsEnabled = true',
       });
     },
 
@@ -16,10 +12,10 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
     disableScraper() {
       chrome.tabs.executeScript(tab.ib, {
-        code: 'window.wpsEnabled = false',
+        // code: 'window.wpsEnabled = false',
       });
-    }
-  }
+    },
+  };
 
   if (changeInfo.status === 'loading' && tab.active) {
     chrome.tabs.executeScript(tab.ib, {

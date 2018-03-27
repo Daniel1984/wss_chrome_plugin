@@ -177,16 +177,15 @@
 // })();
 
 window.wspWebScrapeProvider = (function wsp() {
-  var wpsEnabled = true;
-
+  const wpsEnabled = true;
   function addCustomStyle() {
-    var css = '[data-wsp="wspTarget"]:hover { background: rgba(255, 100, 50, .3); cursor: pointer; }';
-    var head = document.head || document.getElementsByTagName('head')[0];
-    var style = document.createElement('style');
+    const css = '[data-wsp="wspTarget"]:hover { background: rgba(255, 100, 50, .3); cursor: pointer; }';
+    const head = document.head || document.getElementsByTagName('head')[0];
+    const style = document.createElement('style');
 
     style.type = 'text/css';
 
-    if (style.styleSheet){
+    if (style.styleSheet) {
       style.styleSheet.cssText = css;
     } else {
       style.appendChild(document.createTextNode(css));
@@ -251,7 +250,7 @@ window.wspWebScrapeProvider = (function wsp() {
             innerText: currentTarget.innerText,
           };
 
-          console.log(fieldInfo)
+          console.log(fieldInfo);
         }
 
         currentTarget.addEventListener('mouseout', highlightElement);
@@ -271,8 +270,8 @@ window.wspWebScrapeProvider = (function wsp() {
   }
 
   return {
-    init: initiateScrapingUi
+    init: initiateScrapingUi,
   };
-})();
+}());
 
 window.wspWebScrapeProvider.init();
