@@ -1,7 +1,6 @@
 import './styles/index.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('popup DOMContentLoaded');
   const btnEnable = document.querySelector('.btn-enable');
   const btnDisable = document.querySelector('.btn-disable');
 
