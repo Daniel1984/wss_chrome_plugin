@@ -1,23 +1,27 @@
 export default {
   root: {
     boxSizing: 'border-box',
-    border: '1px solid #efefef',
     borderRadius: '10px',
     position: 'fixed',
     bottom: '20px',
-    width: '300px',
+    width: '400px',
     right: '20px',
     minHeight: '400px',
     backgroundColor: '#fff',
     overflow: 'hidden',
+    boxShadow: 'rgba(0, 0, 0, 0.2) 4px 4px 12px',
   },
   header: {
     padding: '0 10px',
     height: '50px',
     backgroundColor: 'rgb(85, 175, 183)',
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  title: {
+    color: '#fff',
+    textTransform: 'uppercase',
   },
   closeIcon: {
     width: '30px',

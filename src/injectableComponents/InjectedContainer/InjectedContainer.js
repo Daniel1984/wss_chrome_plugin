@@ -20,6 +20,9 @@ export default class InjectedContainer extends Component {
     return (
       <div style={styles.root}>
         <div style={styles.header}>
+          <div style={styles.title}>
+            Scraping made easy
+          </div>
           <CloseIcon style={styles.closeIcon} />
         </div>
         <div style={styles.content}>
