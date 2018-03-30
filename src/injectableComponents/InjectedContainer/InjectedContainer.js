@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import SelectionsList from '../SelectionsList/SelectionsList';
-import CloseIcon from 'react-icons/lib/md/close';
+import ChevronDown from 'react-icons/lib/md/keyboard-arrow-down';
+import ChevronUp from 'react-icons/lib/md/keyboard-arrow-up';
+import ScanIcon from 'react-icons/lib/md/location-searching';
 import styles from './styles';
 
 export default class InjectedContainer extends Component {
@@ -12,21 +13,51 @@ export default class InjectedContainer extends Component {
     }).isRequired,
   };
 
+  state = {
+    expanded: false,
+  };
+
   componentDidMount() {
     console.log(this.props.wss);
   }
 
+  expandMenu = () => {
+    this.setState({
+      expanded: !this.state.expanded,
+    });
+  }
+
+  startSelectingElements = () => {
+
+  }
+
   render() {
+    const { expanded } = this.state;
+
     return (
       <div style={styles.root}>
-        <div style={styles.header}>
+        <div style={styles.navbar}>
           <div style={styles.title}>
-            Scraping made easy
+            SCRAPR
           </div>
-          <CloseIcon style={styles.closeIcon} />
+          <div>
+            <button style={styles.ctaBtn} onClick={this.startSelectingElements}>
+              <ScanIcon style={styles.selectionIcon} />
+            </button>
+            <button style={styles.ctaBtn} onClick={this.expandMenu}>
+              {expanded && <ChevronUp style={styles.chevronIcon} />}
+              {!expanded && <ChevronDown style={styles.chevronIcon} />}
+            </button>
+          </div>
         </div>
-        <div style={styles.content}>
-          <SelectionsList />
+        <div style={{
+            ...styles.content,
+            height: expanded ? '400px' : '0px',
+          }}
+        >
+          <div style={styles.innerContent}>
+            some conten
+          </div>
         </div>
       </div>
     );
