@@ -7,7 +7,6 @@ const path = require('path');
 
 const config = {
   entry: {
-    popup: path.join(__dirname, 'src', 'popup.js'),
     options: path.join(__dirname, 'src', 'options.js'),
     background: path.join(__dirname, 'src', 'background.js'),
     inject: path.join(__dirname, 'src', 'inject.js'),
@@ -68,11 +67,6 @@ const config = {
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src', 'popup.html'),
-      filename: 'popup.html',
-      chunks: ['popup'],
-    }),
-    new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'options.html'),
       filename: 'options.html',
       chunks: ['options'],
@@ -87,7 +81,7 @@ const config = {
       allChunks: true,
     }),
     new CopyPlugin([
-      { from: 'src/manifest.json', to: '.' },
+      { from: 'manifest.json', to: '.' },
       { from: 'src/assets', to: '.' },
     ]),
     new WriteFilePlugin(),

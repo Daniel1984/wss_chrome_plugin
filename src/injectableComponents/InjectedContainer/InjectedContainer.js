@@ -7,9 +7,10 @@ import styles from './styles';
 
 export default class InjectedContainer extends Component {
   static propTypes = {
-    wss: PropTypes.shape({
-      pause: PropTypes.func.isRequired,
-      resume: PropTypes.func.isRequired,
+    wsp: PropTypes.shape({
+      disable: PropTypes.func.isRequired,
+      enable: PropTypes.func.isRequired,
+      remove: PropTypes.func.isRequired,
     }).isRequired,
   };
 
@@ -18,7 +19,7 @@ export default class InjectedContainer extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.wss);
+    console.log(this.props.wsp);
   }
 
   expandMenu = () => {
@@ -28,7 +29,9 @@ export default class InjectedContainer extends Component {
   }
 
   startSelectingElements = () => {
-
+    const { remove, disable } = this.props.wsp;
+    remove();
+    disable();
   }
 
   render() {

@@ -1,5 +1,5 @@
 {
-  "name": "pricing-frontend",
+  "name": "web-scraping",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -8,7 +8,7 @@
     "ci": "yarn test && yarn lint",
     "start": "http-server -p 4242 -o -- dist",
     "build": "webpack --mode production",
-    "dev": "webpack-dev-server --mode development --open",
+    "dev": "webpack-dev-server --mode development",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",

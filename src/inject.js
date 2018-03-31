@@ -88,7 +88,8 @@ window.wspWebScrapeProvider = (function wsp() {
 
   function renderUI() {
     const appContainer = document.createElement('div');
-    render(<InjectedContainer wss={window.wspWebScrapeProvider} />, appContainer);
+    appContainer.className = 'wsp-container';
+    render(<InjectedContainer wsp={window.wspWebScrapeProvider} />, appContainer);
     document.body.appendChild(appContainer);
   }
 
@@ -103,14 +104,22 @@ window.wspWebScrapeProvider = (function wsp() {
     renderUI();
   }
 
+  function hideUi() {
+    const appContainer = document.querySelector('.wsp-container');
+    if (appContainer) {
+      appContainer.parentNode.removeChild(appContainer);
+    }
+  }
+
   return {
     init: initiateScrapingUi,
-    pause() {
+    disable() {
       wpsEnabled = false;
     },
-    resume() {
+    enable() {
       wpsEnabled = true;
     },
+    remove: hideUi,
   };
 }());
 

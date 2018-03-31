@@ -34,6 +34,7 @@ export default {
     padding: '0',
     margin: '0 5px',
     '-webkit-appearance': 'none',
+    border: '1px solid #ccc !important',
     borderRadius: '4px',
     width: '30px',
     height: '30px',
