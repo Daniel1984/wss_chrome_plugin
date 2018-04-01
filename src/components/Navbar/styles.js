@@ -1,13 +1,5 @@
 export default {
   root: {
-    position: 'fixed',
-    zIndex: 10000,
-    top: '0',
-    right: '0',
-    left: '0',
-    backgroundColor: '#fff',
-  },
-  navbar: {
     height: '50px',
     padding: '0 10px',
     boxSizing: 'border-box',
@@ -15,31 +7,27 @@ export default {
     alignItems: 'center',
     justifyContent: 'space-between',
     fontSize: '18px !important',
-    boxShadow: 'rgba(0, 0, 0, 0.2) 3px 3px 10px',
+    boxShadow: 'rgba(0, 0, 0, 0.2) 1px 1px 5px',
   },
   title: {
     fontWeight: '600',
     letterSpacing: '1px',
     color: '#000',
-  },
-  content: {
-    transition: 'height .3s ease-in-out',
-    overflowY: 'auto',
-  },
-  innerContent: {
-    display: 'flex',
-    padding: '20px',
+    fontSize: '15px',
   },
   ctaBtn: {
     padding: '0',
     margin: '0 5px',
-    '-webkit-appearance': 'none',
-    border: '1px solid #ccc !important',
+    WebkitAppearance: 'none',
+    border: '1px solid #000 !important',
     borderRadius: '4px',
     width: '30px',
     height: '30px',
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
+    color: '#fff',
     outline: 'none',
+    borderColor: '#000',
+    cursor: 'pointer',
   },
   chevronIcon: {
     fontSize: '25px',

@@ -1,9 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom';
-import InjectedContainer from './injectableComponents/InjectedContainer/InjectedContainer';
+import App from './components/App/App';
 
 window.wspWebScrapeProvider = (function wsp() {
-  let wpsEnabled = true;
+  window.wpsEnabled = false;
 
   function addCustomStyle() {
     const css = '[data-wsp="wspTarget"]:hover { background: rgba(255, 100, 50, .3); cursor: pointer; }';
@@ -21,105 +21,42 @@ window.wspWebScrapeProvider = (function wsp() {
     head.appendChild(style);
   }
 
-  function getPath(el, path) {
-    path = path.length ? path : [];
-
-    const tagName = el.tagName.toLowerCase();
-    const elClass = el.className ? `.${Array.from(el.classList).join('.')}` : '';
-    const elId = el.id ? `#${el.id}` : '';
-    const selector = elId || elClass;
-
-    if (el.parentElement && el.parentElement.children.length) {
-      const elementIndex = Array.from(el.parentElement.children).indexOf(el);
-      path.unshift(`${tagName}${selector}:nth-child(${elementIndex + 1})`);
-    } else {
-      path.unshift(`${tagName}${selector}:nth-child(0)`);
-    }
-
-    if (el.parentElement.nodeName.toLowerCase() !== 'html') {
-      return getPath(el.parentElement, path);
-    }
-
-    return path;
-  }
-
-  function attachEventHandlers() {
-    document.querySelectorAll('body *').forEach((el) => {
-      el.addEventListener('mouseover', (e) => {
-        if (!wpsEnabled) {
-          return true;
-        }
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        const currentTarget = e.currentTarget;
-
-        currentTarget.setAttribute('data-wsp', 'wspTarget');
-
-        function highlightElement() {
-          currentTarget.removeAttribute('data-wsp');
-          currentTarget.removeEventListener('mouseout', highlightElement);
-          currentTarget.removeEventListener('click', storeElementInfo);
-        }
-
-        function storeElementInfo(e) {
-          e.preventDefault();
-          e.stopPropagation();
-
-          const path = getPath(currentTarget, []).join(' > ');
-
-          const fieldInfo = {
-            path,
-            name: 'testName',
-            textContent: currentTarget.textContent,
-            innerHTML: currentTarget.innerHTML,
-            innerText: currentTarget.innerText,
-          };
-
-          console.log(fieldInfo);
-        }
-
-        currentTarget.addEventListener('mouseout', highlightElement);
-        currentTarget.addEventListener('click', storeElementInfo);
-      });
-    });
-  }
-
   function renderUI() {
     const appContainer = document.createElement('div');
     appContainer.className = 'wsp-container';
-    render(<InjectedContainer wsp={window.wspWebScrapeProvider} />, appContainer);
+    render(<App wsp={window.wspWebScrapeProvider} />, appContainer);
     document.body.appendChild(appContainer);
   }
 
   function initiateScrapingUi() {
     addCustomStyle();
-    attachEventHandlers();
-    /*
-      we add our custom UI last so that it does not
-      intersect with scraper logic that attaches to
-      all body elements
-    */
     renderUI();
   }
 
   function hideUi() {
     const appContainer = document.querySelector('.wsp-container');
     if (appContainer) {
-      appContainer.parentNode.removeChild(appContainer);
+      appContainer.style.display = 'none';
+    }
+  }
+
+  function showUi() {
+    const appContainer = document.querySelector('.wsp-container');
+    if (appContainer) {
+      appContainer.style.display = 'block';
     }
   }
 
   return {
     init: initiateScrapingUi,
-    disable() {
-      wpsEnabled = false;
+    disableSelection() {
+      window.wpsEnabled = false;
     },
-    enable() {
-      wpsEnabled = true;
+    enableSelection() {
+      window.wpsEnabled = true;
     },
-    remove: hideUi,
+    hideUi,
+    showUi,
   };
 }());
 

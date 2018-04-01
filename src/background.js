@@ -1,42 +1,35 @@
 const injectedTabs = {};
 
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+function handleExtensionClick(tab) {
   const backgroundApp = {
-    enableScrapeSelections() {
-      chrome.tabs.executeScript(tab.ib, {
-        // code: 'window.wpsEnabled = true',
-      });
-    },
-
-    persistFieldInfo(payload) {
-      console.log('payload: ', payload);
-    },
-
-    disableScraper() {
-      chrome.tabs.executeScript(tab.ib, {
-        // code: 'window.wpsEnabled = false',
-      });
+    hideWPS() {
+      injectedTabs[tab.id].visible = false;
     },
   };
 
+  if (!injectedTabs[tab.id]) {
+    chrome.tabs.executeScript(tab.ib, { file: 'inject.js' });
+    injectedTabs[tab.id] = { injected: true, visible: true };
+  } else if (injectedTabs[tab.id] && !injectedTabs[tab.id].visible) {
+    injectedTabs[tab.id].visible = true;
+    chrome.tabs.executeScript(tab.ib, { code: 'window.wspWebScrapeProvider.showUi()' });
+  } else {
+    injectedTabs[tab.id].visible = false;
+    chrome.tabs.executeScript(tab.ib, { code: 'window.wspWebScrapeProvider.hideUi()' });
+  }
 
-  chrome.browserAction.onClicked.addListener((tab) => {
-    if (changeInfo.status === 'loading' && tab.active) {
-      if (!injectedTabs[tab.id]) {
-        chrome.tabs.executeScript(tab.ib, {
-          file: 'inject.js',
-        });
-
-        injectedTabs[tab.id] = true;
-      }
+  function listenToOutsideMessages(request, sender, sendResponse) {
+    if (request.fn in backgroundApp) {
+      chrome.runtime.onMessage.removeListener(listenToOutsideMessages);
+      backgroundApp[request.fn](request.payload || {});
     }
-  });
+  }
 
+  chrome.runtime.onMessage.addListener(listenToOutsideMessages);
+}
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'loading' && tab.active) {
-    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-      if (request.fn in backgroundApp) {
-        backgroundApp[request.fn](request.payload || {});
-      }
-    });
+    chrome.browserAction.onClicked.addListener(handleExtensionClick);
   }
 });
