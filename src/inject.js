@@ -29,6 +29,12 @@ window.wspWebScrapeProvider = (function wsp() {
   }
 
   function initiateScrapingUi() {
+    const appContainer = document.querySelector('.wsp-container');
+
+    if (appContainer) {
+      return;
+    }
+
     addCustomStyle();
     renderUI();
   }

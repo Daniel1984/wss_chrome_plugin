@@ -7,15 +7,10 @@ function handleExtensionClick(tab) {
     },
   };
 
-  if (!injectedTabs[tab.id]) {
-    chrome.tabs.executeScript(tab.ib, { file: 'inject.js' });
-    injectedTabs[tab.id] = { injected: true, visible: true };
-  } else if (injectedTabs[tab.id] && !injectedTabs[tab.id].visible) {
-    injectedTabs[tab.id].visible = true;
-    chrome.tabs.executeScript(tab.ib, { code: 'window.wspWebScrapeProvider.showUi()' });
-  } else {
-    injectedTabs[tab.id].visible = false;
-    chrome.tabs.executeScript(tab.ib, { code: 'window.wspWebScrapeProvider.hideUi()' });
+  if (injectedTabs[tab.id] && !injectedTabs[tab.id].visible) {
+    chrome.tabs.executeScript(tab.ib, { code: 'window.wspWebScrapeProvider.showUi()' }, () => {
+      injectedTabs[tab.id] = { injected: true, visible: true };
+    });
   }
 
   function listenToOutsideMessages(request, sender, sendResponse) {
@@ -31,5 +26,10 @@ function handleExtensionClick(tab) {
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'loading' && tab.active) {
     chrome.browserAction.onClicked.addListener(handleExtensionClick);
+    chrome.tabs.executeScript(tab.ib, { file: 'inject.js' }, () => {
+      chrome.tabs.executeScript(tab.ib, { code: 'window.wspWebScrapeProvider.hideUi()' }, () => {
+        injectedTabs[tab.id] = { injected: true, visible: false };
+      });
+    });
   }
 });
