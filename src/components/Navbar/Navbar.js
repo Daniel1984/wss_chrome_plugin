@@ -56,11 +56,7 @@ export default class Navbar extends Component {
             <div className="wsp">
               <button
                 className="wsp"
-                style={{
-                  ...styles.ctaBtn,
-                  backgroundColor: '#64CCC9',
-                  borderColor: '#64CCC9',
-                }}
+                style={styles.ctaBtn}
                 onClick={this.startSelectingElements}
               >
                 {isActiveScan && (
