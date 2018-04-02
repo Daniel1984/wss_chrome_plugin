@@ -20,7 +20,7 @@ export default {
     margin: '0 5px',
     WebkitAppearance: 'none',
     border: '1px solid #000 !important',
-    borderRadius: '4px',
+    borderRadius: '15px',
     width: '30px',
     height: '30px',
     backgroundColor: '#000',
