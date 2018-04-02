@@ -4,6 +4,7 @@ import { Subscribe } from 'unstated';
 import ChevronDown from 'react-icons/lib/md/keyboard-arrow-down';
 import ChevronUp from 'react-icons/lib/md/keyboard-arrow-up';
 import ScanIcon from 'react-icons/lib/md/location-searching';
+import DisabledScanIcon from 'react-icons/lib/md/location-disabled';
 import CloseIcon from 'react-icons/lib/md/close';
 import ContentManagement from '../../containers/ContentManagement';
 import ContentWrapper from '../../containers/ContentWrapper';
@@ -20,14 +21,14 @@ export default class Navbar extends Component {
   };
 
   state = {
-    scanEnabled: false,
+    isActiveScan: false,
   };
 
   startSelectingElements = () => {
-    this.setState({ scanEnabled: !this.state.scanEnabled }, () => {
+    this.setState({ isActiveScan: !this.state.isActiveScan }, () => {
       const { enableSelection, disableSelection } = this.props.wsp;
 
-      if (this.state.scanEnabled) {
+      if (this.state.isActiveScan) {
         enableSelection();
       } else {
         disableSelection();
@@ -43,6 +44,8 @@ export default class Navbar extends Component {
   }
 
   render() {
+    const { isActiveScan } = this.state;
+
     return (
       <Subscribe to={[ContentManagement, ContentWrapper]}>
         {(contentManager, contentWrapper) => (
@@ -53,10 +56,19 @@ export default class Navbar extends Component {
             <div className="wsp">
               <button
                 className="wsp"
-                style={styles.ctaBtn}
+                style={{
+                  ...styles.ctaBtn,
+                  backgroundColor: '#64CCC9',
+                  borderColor: '#64CCC9',
+                }}
                 onClick={this.startSelectingElements}
               >
-                <ScanIcon className="wsp" style={styles.selectionIcon} />
+                {isActiveScan && (
+                  <DisabledScanIcon className="wsp" style={styles.selectionIcon} />
+                )}
+                {!isActiveScan && (
+                  <ScanIcon className="wsp" style={styles.selectionIcon} />
+                )}
               </button>
 
               <button
@@ -74,7 +86,11 @@ export default class Navbar extends Component {
 
               <button
                 className="wsp"
-                style={styles.ctaBtn}
+                style={{
+                  ...styles.ctaBtn,
+                  backgroundColor: 'rgb(204, 0, 0)',
+                  borderColor: 'rgb(204, 0, 0)',
+                }}
                 onClick={this.removeWSP}
               >
                 <CloseIcon className="wsp" style={styles.selectionIcon} />
