@@ -22,6 +22,22 @@ function getAbsolutePath(el, path) {
   return path;
 }
 
+function getSimilarElements(element, similarItems = []) {
+  if (element.parentElement.nodeName.toLowerCase() === 'html') {
+    return similarItems;
+  }
+
+  if (element.className) {
+    similarItems = document.querySelectorAll(`.${element.className}`);
+  }
+
+  if (!similarItems.length) {
+    return getSimilarElements(element.parentElement, similarItems);
+  }
+
+  return similarItems;
+}
+
 export default class ContentManagement extends Container {
   state = {
     selectedElements: [],
@@ -63,6 +79,8 @@ export default class ContentManagement extends Container {
           e.stopPropagation();
 
           const path = getAbsolutePath(currentTarget, []).join(' > ');
+          const similarElements = getSimilarElements(currentTarget);
+          console.log('similarElements - ', similarElements);
 
           const fieldInfo = {
             path,
