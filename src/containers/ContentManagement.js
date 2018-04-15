@@ -28,7 +28,13 @@ function getSimilarElements(element, similarItems = []) {
   }
 
   if (element.className) {
-    similarItems = document.querySelectorAll(`.${element.className}`);
+    let classname = element.className.split(' ').join('.');
+
+    if (classname.charAt(classname.length - 1) === '.') {
+      classname = classname.slice(0, -1);
+    }
+
+    similarItems = document.querySelectorAll(`.${element.className.split(' ').join('.')}`);
   }
 
   if (!similarItems.length) {
