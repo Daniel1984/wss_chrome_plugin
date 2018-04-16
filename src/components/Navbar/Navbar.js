@@ -54,6 +54,11 @@ export default class Navbar extends Component {
               SCRAPR
             </div>
             <div className="wsp" style={styles.ctaContainer}>
+              {isActiveScan && (
+                <div className="wsp">
+                  Select elements
+                </div>
+              )}
               <button
                 className="wsp"
                 style={styles.ctaBtn}
