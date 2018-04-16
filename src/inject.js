@@ -6,7 +6,9 @@ window.wspWebScrapeProvider = (function wsp() {
   window.wpsEnabled = false;
 
   function addCustomStyle() {
-    const css = '[data-wsp="wspTarget"]:hover { background: rgba(255, 100, 50, .3); cursor: pointer; }';
+    const css = `
+      [wsp-active="true"]:hover, [wsp-selected="true"] { background: rgba(255, 100, 50, .3); cursor: pointer; }
+    `;
     const head = document.head || document.getElementsByTagName('head')[0];
     const style = document.createElement('style');
 

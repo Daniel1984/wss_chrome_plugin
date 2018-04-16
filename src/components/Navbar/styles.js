@@ -15,6 +15,10 @@ export default {
     color: '#000',
     fontSize: '15px',
   },
+  ctaContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
   ctaBtn: {
     padding: '0',
     margin: '0 5px',
@@ -28,6 +32,9 @@ export default {
     outline: 'none',
     borderColor: '#64CCC9',
     cursor: 'pointer',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   chevronIcon: {
     fontSize: '25px',

@@ -34,7 +34,7 @@ function getSimilarElements(element, similarItems = []) {
       classname = classname.slice(0, -1);
     }
 
-    similarItems = document.querySelectorAll(`.${element.className.split(' ').join('.')}`);
+    similarItems = document.querySelectorAll(`.${classname}`);
   }
 
   if (!similarItems.length) {
@@ -51,7 +51,6 @@ export default class ContentManagement extends Container {
 
   attachEventHandlers = () => {
     const setElementInState = (fieldInfo) => {
-      console.log(fieldInfo);
       this.setState({
         selectedElements: [...this.state.selectedElements, fieldInfo],
       });
@@ -72,10 +71,10 @@ export default class ContentManagement extends Container {
 
         const { currentTarget } = e;
 
-        currentTarget.setAttribute('data-wsp', 'wspTarget');
+        currentTarget.setAttribute('wsp-active', true);
 
         function highlightElement() {
-          currentTarget.removeAttribute('data-wsp');
+          currentTarget.removeAttribute('wsp-active');
           currentTarget.removeEventListener('mouseout', highlightElement);
           currentTarget.removeEventListener('click', storeElementInfo);
         }
@@ -84,9 +83,14 @@ export default class ContentManagement extends Container {
           e.preventDefault();
           e.stopPropagation();
 
+          currentTarget.setAttribute('wsp-selected', true);
+
           const path = getAbsolutePath(currentTarget, []).join(' > ');
           const similarElements = getSimilarElements(currentTarget);
           console.log('similarElements - ', similarElements);
+          similarElements.forEach((element) => {
+            element.setAttribute('wsp-selected', true);
+          });
 
           const fieldInfo = {
             path,

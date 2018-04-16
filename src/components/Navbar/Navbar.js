@@ -53,7 +53,7 @@ export default class Navbar extends Component {
             <div className="wsp" style={styles.title}>
               SCRAPR
             </div>
-            <div className="wsp">
+            <div className="wsp" style={styles.ctaContainer}>
               <button
                 className="wsp"
                 style={styles.ctaBtn}
